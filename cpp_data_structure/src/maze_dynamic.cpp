@@ -90,8 +90,10 @@ public:
         {
             for (int i = 0; i < width_; i++)
             {
-                if (map[j][i] == 0) std::cout << "W";
+                if (map[j][i] == 0) std::cout << "#";
                 else if (map[j][i] == 1) std::cout << " ";
+                else if (map[j][i] == 2) std::cout << "*";
+                else if (map[j][i] == 3) std::cout << "@";
                 else if (map[j][i] == 5) std::cout << "I";
                 else if (map[j][i] == 9) std::cout << "O";
             }
@@ -99,20 +101,71 @@ public:
         }
     }
 
-    void search_exit()
+    void search_exit_queue()
     {
-        std::queue<Location2D> q_loc;
+        std::queue<Location2D> loc;
+        int count = 0;
 
-        q_loc.push(entry_);
+        loc.push(entry_);
 
-        while (!q_loc.empty())
+        while (!loc.empty())
         {
-            Location2D here = q_loc.front();
-            q_loc.pop();
+            Location2D here = loc.front();
+            loc.pop();
 
-            
+            if (map[here.row][here.col] == 9)
+            {
+                std::cout << "End of searching!" << std::endl;
+                std::cout << "Total count: " << count << std::endl;
+                return;
+            }
+            else 
+            {
+                map[here.row][here.col] = 2; // 2 is marking for now.
+
+                if (is_valid_loc({here.row - 1, here.col})) loc.push({here.row - 1, here.col});
+                if (is_valid_loc({here.row + 1, here.col})) loc.push({here.row + 1, here.col});
+                if (is_valid_loc({here.row, here.col - 1})) loc.push({here.row, here.col - 1});
+                if (is_valid_loc({here.row, here.col + 1})) loc.push({here.row, here.col + 1});
+            }
+            count++;
         }
 
+        std::cout << "Can't find goal...." << std::endl;
+    }
+
+    void search_exit_stack()
+    {
+        std::stack<Location2D> loc;
+
+        loc.push(entry_);
+        
+        int count = 0;
+
+        while (!loc.empty())
+        {
+            Location2D here = loc.top();
+            loc.pop();
+
+            if (map[here.row][here.col] == 9)
+            {
+                std::cout << "End of searching!" << std::endl;
+                std::cout << "Total count: " << count << std::endl;
+                return;
+            }
+            else 
+            {
+                map[here.row][here.col] = 2;
+
+                if (is_valid_loc({here.row - 1, here.col})) loc.push({here.row - 1, here.col});
+                if (is_valid_loc({here.row + 1, here.col})) loc.push({here.row + 1, here.col});
+                if (is_valid_loc({here.row, here.col - 1})) loc.push({here.row, here.col - 1});
+                if (is_valid_loc({here.row, here.col + 1})) loc.push({here.row, here.col + 1});
+            }
+            count++;
+        }
+
+        std::cout << "Can't find goal...." << std::endl;
     }
 
     bool is_valid_loc(const Location2D& p)
@@ -130,12 +183,26 @@ public:
 
 int main()
 {
-    Maze maze;
+    Maze qmaze;
+    Maze smaze;
 
     std::string f_path = "test.txt";
 
-    maze.load(f_path);
-    maze.print();
+    // std::cout << "Compare Queue and Stack Result" << std::endl;
+
+    // qmaze.load(f_path);
+    // qmaze.print();
+
+    // qmaze.search_exit_queue();
+    // qmaze.print();
+
+    std::cout << "##############################" << std::endl;
+
+    smaze.load(f_path);
+    smaze.print();
+
+    smaze.search_exit_stack();
+    smaze.print();
 
     return 0;
 }
