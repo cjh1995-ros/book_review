@@ -25,9 +25,6 @@ bool is_valid_loc(int i, int j)
 }
 
 
-bool is_rectangle(locations locs)
-{}
-
 int main()
 {
     for (int i = 0; i < 5; i++)
@@ -52,7 +49,7 @@ int main()
                         if (is_valid_loc(l.first + df.first, l.second + df.second))
                         {
                             if (map[l.first + df.first][l.second + df.second] == 1) is_one = true;
-                            else if (map[l.first + df.first][l.second + df.second] == 0) is_zero = true;
+                            else is_zero = true;
                         }
                     }
 
@@ -64,10 +61,17 @@ int main()
                     }
                     else
                     {
+                        std::cout << "Search neighbor of: " << l.first<< "," << l.second << std::endl;
                         for (auto df : diff)
                         {
                             if (is_valid_loc(l.first + df.first, l.second + df.second))
-                                q.push({l.first + df.first, l.second + df.second});
+                            {
+                                if (map[l.first + df.first][l.second + df.second] != 1)
+                                {
+                                    std::cout << "neighbors: " << l.first + df.first << "," << l.second + df.second << std::endl;
+                                    q.push({l.first + df.first, l.second + df.second});
+                                }
+                            }
                         }
                     }
                 }
