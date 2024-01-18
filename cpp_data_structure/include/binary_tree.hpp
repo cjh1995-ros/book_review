@@ -13,7 +13,7 @@ class BinaryTree
 {
 using ptr = std::shared_ptr<BinaryNode<T>>;
 
-private:
+protected:
     int height_;
     ptr root_;
 public:
