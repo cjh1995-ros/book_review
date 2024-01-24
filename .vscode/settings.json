@@ -76,6 +76,7 @@
         "span": "cpp",
         "thread": "cpp",
         "numeric": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "csignal": "cpp"
     }
 }

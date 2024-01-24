@@ -15,10 +15,15 @@ set(EXAMPLE_DIR	"${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/src")
 file(GLOB EXAMPLE_FILES ${EXAMPLE_DIR}/*.cpp)
 
 
+# add_executable(example_scheduler 
+#     ${EXAMPLE_DIR}/example_scheduler.cpp
+# )
+
 add_executable(example_scheduler 
     ${EXAMPLE_DIR}/example_scheduler.cpp
-)
-
+    ${EXAMPLE_DIR}/request.cpp
+    ${EXAMPLE_DIR}/dispatcher.cpp
+    ${EXAMPLE_DIR}/worker.cpp)
 
 # foreach(example_file ${EXAMPLE_FILES})
 #     string(REPLACE ".cpp"            "" example_name ${example_file})
